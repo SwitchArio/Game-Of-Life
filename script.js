@@ -1,12 +1,11 @@
 getNewEmptyBoard = () => new Array(INDEX_ROW).fill(0).map(() => new Array(INDEX_COLUMN).fill(0))
 
-let INDEX_ROW = 15
-let INDEX_COLUMN = 30
-let BOARD = getNewEmptyBoard()
-
 const boardElement = document.getElementById("board")
-boardElement.style.gridTemplateRows = `repeat(${INDEX_ROW}, 50px)`
-boardElement.style.gridTemplateColumns = `repeat(${INDEX_COLUMN}, 50px)`
+let INDEX_ROW = 10
+let INDEX_COLUMN = 10
+let BOARD = getNewEmptyBoard(INDEX_ROW, INDEX_COLUMN);
+
+setGrid()
 updateCells(BOARD, INDEX_ROW, INDEX_COLUMN)
 
 function updateCells(board, indexR, indexC) {
@@ -14,22 +13,20 @@ function updateCells(board, indexR, indexC) {
     for (let r = 0; r < indexR; r++)
         for (let c = 0; c < indexC; c++){
             let cell = document.createElement("div")
+            cell.onclick = () => setCellsState(cell, r, c)
             if (board[r][c] == 0) cell.className = "dead"
             else if(board[r][c] == 1) cell.className = "alive"
-            else alert(board[r][c])
             boardElement.appendChild(cell)
         }
 }
 
-function displayElements() {
-    console.clear()
-    BOARD = newGeneration(BOARD, INDEX_ROW, INDEX_COLUMN)
-    updateCells(BOARD, INDEX_ROW, INDEX_COLUMN)
+function setCellsState(cell, r, c) {
+    cell.className = (cell.className == "dead") ? "alive" : "dead"
+    BOARD[r][c] = (BOARD[r][c] == 0) ? 1 : 0
 }
 
 function newGeneration(oldBoard, indexR, indexC){
     let newBoard = getNewEmptyBoard()
-
     for (let row = 0; row < indexR; row++)
         for (let column = 0; column < indexC; column++){
             let neighbours = neighboursCounter(oldBoard, indexR-1, indexC-1, row, column)
@@ -62,8 +59,23 @@ function neighboursCounter(board, indexR, indexC, r, c) {
         if(board[r+1][c] == 1) neighbours += 1
         if(c < indexC && board[r+1][c+1] == 1) neighbours += 1
     }
-
     return neighbours
+}
+
+function setGrid() {
+    INDEX_ROW = eval(document.getElementById("row").value)
+    INDEX_COLUMN = eval(document.getElementById("columns").value)
+    boardElement.style.gridTemplateRows = `repeat(${INDEX_ROW}, 50px)`
+    boardElement.style.gridTemplateColumns = `repeat(${INDEX_COLUMN}, 50px)`
+    console.log(`impostato su ${INDEX_ROW}x${INDEX_COLUMN} (RIGHExCOLONNE)`)
+
+    BOARD = getNewEmptyBoard(INDEX_ROW, INDEX_COLUMN)
+    updateCells(BOARD, INDEX_ROW, INDEX_COLUMN)
+}
+
+function displayElements() {
+    BOARD = newGeneration(BOARD, INDEX_ROW, INDEX_COLUMN)
+    updateCells(BOARD, INDEX_ROW, INDEX_COLUMN)
 }
 
 function deleteChildren() {
