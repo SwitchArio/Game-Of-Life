@@ -9,9 +9,6 @@ body{
     background-color: lightgray;
     grid-gap: 5px;
 }
-.cell{
-
-}
 
 .alive{
     background-color: black;
