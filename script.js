@@ -2,6 +2,7 @@ getNewEmptyBoard = () => new Array(INDEX_ROW).fill(0).map(() => new Array(INDEX_
 
 const boardElement = document.getElementById("board")
 document.getElementById("btn").onclick = async () => {
+    document.getElementById("btn").innerText = !state ? "PAUSA" : "INIZIA"
     state = !state
     console.log(state)
     await displayElements()
@@ -72,8 +73,8 @@ function neighboursCounter(board, indexR, indexC, r, c) {
 function setGrid() {
     INDEX_ROW = eval(document.getElementById("row").value)
     INDEX_COLUMN = eval(document.getElementById("columns").value)
-    boardElement.style.gridTemplateRows = `repeat(${INDEX_ROW}, 50px)`
-    boardElement.style.gridTemplateColumns = `repeat(${INDEX_COLUMN}, 50px)`
+    boardElement.style.gridTemplateRows = `repeat(${INDEX_ROW}, 40px)`
+    boardElement.style.gridTemplateColumns = `repeat(${INDEX_COLUMN}, 40px)`
     console.log(`impostato su ${INDEX_ROW}x${INDEX_COLUMN} (RIGHExCOLONNE)`)
 
     BOARD = getNewEmptyBoard(INDEX_ROW, INDEX_COLUMN)
