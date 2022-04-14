@@ -1,9 +1,16 @@
 getNewEmptyBoard = () => new Array(INDEX_ROW).fill(0).map(() => new Array(INDEX_COLUMN).fill(0))
 
 const boardElement = document.getElementById("board")
+document.getElementById("btn").onclick = async () => {
+    state = !state
+    console.log(state)
+    await displayElements()
+}
+
 let INDEX_ROW = 10
 let INDEX_COLUMN = 10
 let BOARD = getNewEmptyBoard(INDEX_ROW, INDEX_COLUMN);
+let state = false
 
 setGrid()
 updateCells(BOARD, INDEX_ROW, INDEX_COLUMN)
@@ -73,9 +80,12 @@ function setGrid() {
     updateCells(BOARD, INDEX_ROW, INDEX_COLUMN)
 }
 
-function displayElements() {
-    BOARD = newGeneration(BOARD, INDEX_ROW, INDEX_COLUMN)
-    updateCells(BOARD, INDEX_ROW, INDEX_COLUMN)
+async function displayElements() {
+    while(state) {
+        BOARD = newGeneration(BOARD, INDEX_ROW, INDEX_COLUMN)
+        updateCells(BOARD, INDEX_ROW, INDEX_COLUMN)
+        await sleep(500)
+    }
 }
 
 function deleteChildren() {
@@ -84,4 +94,8 @@ function deleteChildren() {
         first.remove();
         first = boardElement.firstElementChild;
     }
+}
+
+function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
 }
