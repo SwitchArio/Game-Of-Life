@@ -1,0 +1,21 @@
+body{
+    margin: 0;
+}
+
+.grid-container{
+    display: grid;
+    width: fit-content;
+    height: fit-content;
+    background-color: lightgray;
+    grid-gap: 5px;
+}
+.cell{
+
+}
+
+.alive{
+    background-color: black;
+}
+.dead{
+    background-color: white;
+}
